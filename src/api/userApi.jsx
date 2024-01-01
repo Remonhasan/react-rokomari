@@ -26,3 +26,4 @@ export const addUserData = async (userData) => {
     throw error; // Rethrow the error to handle it where the function is used
   }
 };
+
