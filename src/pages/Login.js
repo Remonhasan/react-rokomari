@@ -20,7 +20,7 @@ export default function Login() {
         } else {
             navigate('/login')
         }
-    }, [authToken]);
+    }, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();
