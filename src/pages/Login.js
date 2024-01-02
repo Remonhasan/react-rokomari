@@ -8,33 +8,44 @@ import '../assets/js/scripts';
 
 export default function Login() {
 
-  const navigate = useNavigate();
-  const { userCredentials, handleInputChange, login } = useLogin();
-  
-  const handleLogin = async (e) => {
-    e.preventDefault();
-      // Validation
-      if (!userCredentials.email || !userCredentials.password) {
-      toast.error("All fields are required !");
-      return;
-    }
-    const { success, token } = await login();
-
-    if (success) {
-      // Redirect or perform actions for authenticated user
-      toast.success('Logged in successfully!');
-      navigate('/dashboard');
-    } else {
-      // Handle login error (e.g., display error message)
-      console.error('Login Failed');
-      // Handle error based on your application's logic (e.g., show error message)
-    }
-  };
+    const navigate = useNavigate();
+    const { userCredentials, handleInputChange, login } = useLogin();
 
 
-  return (
+    useEffect(() => {
+        const authToken = localStorage.getItem('token');
 
-    <div id="layoutAuthentication">
+        if (authToken) {
+            navigate('/dashboard');
+        } else {
+            navigate('/login')
+        }
+    }, [authToken]);
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        // Validation
+        if (!userCredentials.email || !userCredentials.password) {
+            toast.error("All fields are required !");
+            return;
+        }
+        const { success, token } = await login();
+
+        if (success) {
+            // Redirect or perform actions for authenticated user
+            toast.success('Logged in successfully!');
+            navigate('/dashboard');
+        } else {
+            // Handle login error (e.g., display error message)
+            console.error('Login Failed');
+            // Handle error based on your application's logic (e.g., show error message)
+        }
+    };
+
+
+    return (
+
+        <div id="layoutAuthentication">
             <div id="layoutAuthentication_content">
                 <main>
                     <div className="container">
@@ -45,34 +56,34 @@ export default function Login() {
                                     <div className="card-body">
                                         <form onSubmit={handleLogin}>
                                             <div className="form-floating mb-3">
-                                                <input className="form-control" id="inputEmail" 
-                                                type="email"
-                                                placeholder="Enter email"
-                                                name="email"
-                                                value={userCredentials.email}
-                                                onChange={handleInputChange}
+                                                <input className="form-control" id="inputEmail"
+                                                    type="email"
+                                                    placeholder="Enter email"
+                                                    name="email"
+                                                    value={userCredentials.email}
+                                                    onChange={handleInputChange}
                                                 />
                                                 <label>Email address</label>
                                             </div>
                                             <div className="form-floating mb-3">
                                                 <input className="form-control" id="inputPassword"
-                                                type="password"
-                                                placeholder="Enter password"
-                                                name="password"
-                                                value={userCredentials.password}
-                                                onChange={handleInputChange}
-                                                
+                                                    type="password"
+                                                    placeholder="Enter password"
+                                                    name="password"
+                                                    value={userCredentials.password}
+                                                    onChange={handleInputChange}
+
                                                 />
                                                 <label>Password</label>
                                             </div>
                                             <div className="form-check mb-3">
-                                                <input className="form-check-input"  type="checkbox" value="" />
+                                                <input className="form-check-input" type="checkbox" value="" />
                                                 <label className="form-check-label" >Remember Password</label>
                                             </div>
                                             <div className="d-flex align-items-center justify-content-between mt-4 mb-0">
                                                 <a className="small">Forgot Password?</a>
                                                 <button type="submit" className="btn btn-primary btn-sm">
-                                                  Login
+                                                    Login
                                                 </button>
                                             </div>
                                         </form>
@@ -87,5 +98,5 @@ export default function Login() {
                 </main>
             </div>
         </div>
-  )
+    )
 }

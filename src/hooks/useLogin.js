@@ -25,7 +25,7 @@ const useLogin = () => {
 
             // Store the token in local storage or state for subsequent requests
             localStorage.setItem('token', token);
-
+            
             // Return a success message or token for further handling in components
             return { success: true, token };
         } catch (error) {
